@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/dpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/dpp/doxygen-awesome-css" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/pattern_language" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/pattern_language/external/cli11" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/pattern_language/external/fmt" vcs="Git" />
+  </component>
+</project>

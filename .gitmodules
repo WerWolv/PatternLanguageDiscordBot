@@ -1,0 +1,6 @@
+[submodule "external/dpp"]
+	path = external/dpp
+	url = https://github.com/brainboxdotcc/DPP
+[submodule "external/pattern_language"]
+	path = external/pattern_language
+	url = https://github.com/WerWolv/PatternLanguage
