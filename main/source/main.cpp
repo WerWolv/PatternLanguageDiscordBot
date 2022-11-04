@@ -50,7 +50,7 @@ int main() {
 
             pl::PatternLanguage runtime;
             runtime.setDangerousFunctionCallHandler([] { return false; });
-            runtime.setIncludePaths({ "./includes" });
+            runtime.setIncludePaths({ std::getenv("INCLUDE_DIR") });
 
             runtime.removePragma("eval_depth");
             runtime.removePragma("array_limit");
