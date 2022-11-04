@@ -107,6 +107,7 @@ int main() {
                 }
 
                 consoleLog += content;
+                consoleLog += '\n';
             }
             if (consoleLog.size() > 1000)
                 consoleLog = "..." + consoleLog.substr(consoleLog.size() - 1000, consoleLog.size());
