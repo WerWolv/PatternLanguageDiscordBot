@@ -59,14 +59,14 @@ int main() {
 
             runtime.addPragma("example", [](pl::PatternLanguage &runtime, const std::string &value) {
                 auto data = parseByteString(value);
-                runtime.setDataSource([data](pl::u64 address, pl::u8 *buffer, pl::u64 size) {
+                runtime.setDataSource(0, data.size(), [data](pl::u64 address, pl::u8 *buffer, pl::u64 size) {
                     std::memcpy(buffer, data.data() + address, size);
-                }, 0x00, data.size());
+                });
 
                 return true;
             });
 
-            runtime.setDataSource([](pl::u64 address, pl::u8 *buffer, pl::u64 size) { }, 0, 0);
+            runtime.setDataSource(0, 0, [](pl::u64 address, pl::u8 *buffer, pl::u64 size) { });
 
             auto message = event.get_message().content;
 
