@@ -70,7 +70,7 @@ int main() {
 
             auto message = event.get_message().content;
 
-            auto parts = pl::hlp::splitString(message, "```");
+            auto parts = wolv::util::splitString(message, "```");
             if (parts.size() != 3) {
                 event.edit_original_response(dpp::message("Source code must be wrapped in a code block."));
                 return;
@@ -113,7 +113,7 @@ int main() {
                 consoleLog = "..." + consoleLog.substr(consoleLog.size() - 1000, consoleLog.size());
 
             std::string patternOutput;
-            for (const auto &pattern : runtime.getAllPatterns()) {
+            for (const auto &pattern : runtime.getPatterns()) {
                 patternOutput += fmt::format("{} {} @ {} = {}\n", pattern->getTypeName(), pattern->getVariableName(), pattern->getOffset(), pattern->toString());
             }
             if (patternOutput.size() > 1000)
@@ -123,7 +123,7 @@ int main() {
             result += success ? "**Result**: `Success`" : "`Failure`";
             result += fmt::format("\n\n**Console Log**\n```\n{}\n```", consoleLog);
             if (!patternOutput.empty()) {
-                result += fmt::format("\n\n**Patters**\n```\n{}\n```", patternOutput);
+                result += fmt::format("\n\n**Patterns**\n```\n{}\n```", patternOutput);
             }
 
             event.edit_original_response(dpp::message(result));
