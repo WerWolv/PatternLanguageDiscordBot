@@ -1,18 +1,16 @@
 #include <dpp.h>
 #include <pl.hpp>
 
-#include <functional>
 #include <string>
-#include <thread>
-#include <chrono>
 
 #include <pl/patterns/pattern.hpp>
+#include <wolv/utils/string.hpp>
 
 using namespace std::literals::chrono_literals;
 
 static std::vector<pl::u8> parseByteString(const std::string &string) {
     auto byteString = std::string(string);
-    byteString.erase(std::remove(byteString.begin(), byteString.end(), ' '), byteString.end());
+    std::erase(byteString, ' ');
 
     if ((byteString.length() % 2) != 0) return {};
 
@@ -57,7 +55,7 @@ int main() {
             runtime.removePragma("pattern_limit");
             runtime.removePragma("loop_limit");
 
-            runtime.addPragma("example", [](pl::PatternLanguage &runtime, const std::string &value) {
+            runtime.addPragma("example", [](const pl::PatternLanguage &runtime, const std::string &value) {
                 auto data = parseByteString(value);
                 runtime.setDataSource(0, data.size(), [data](pl::u64 address, pl::u8 *buffer, pl::u64 size) {
                     std::memcpy(buffer, data.data() + address, size);
@@ -85,30 +83,30 @@ int main() {
                 return;
             }
 
+            runtime.addDefine("__PL_BOT__");
 
-            bool success = runtime.executeString(parts[1]);
+            bool success = runtime.executeString(parts[1], "<Source Code>");
 
             std::string consoleLog;
-            for (const auto &[level, content] : runtime.getConsoleLog()) {
-                switch (level) {
-                    using enum pl::core::LogConsole::Level;
-                    case Debug:
-                        consoleLog += "[Debug] ";
-                        break;
-                    case Info:
-                        consoleLog += "[Info]  ";
-                        break;
-                    case Warning:
-                        consoleLog += "[Warn]  ";
-                        break;
-                    case Error:
-                        consoleLog += "[Error] ";
-                        break;
-                }
+            runtime.setLogCallback([&consoleLog](auto level, auto message) {
+                for (auto line : wolv::util::splitString(message, "\n")) {
+                    if (!wolv::util::trim(line).empty()) {
+                        switch (level) {
+                            using enum pl::core::LogConsole::Level;
 
-                consoleLog += content;
-                consoleLog += '\n';
-            }
+                            case Debug:     line = fmt::format("D: {}", line); break;
+                            case Info:      line = fmt::format("I: {}", line); break;
+                            case Warning:   line = fmt::format("W: {}", line); break;
+                            case Error:     line = fmt::format("E: {}", line); break;
+                            default: break;
+                        }
+                    }
+
+                    consoleLog += line;
+                    consoleLog += '\n';
+                }
+            });
+
             if (consoleLog.size() > 1000)
                 consoleLog = "..." + consoleLog.substr(consoleLog.size() - 1000, consoleLog.size());
 
