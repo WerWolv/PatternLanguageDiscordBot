@@ -85,8 +85,6 @@ int main() {
 
             runtime.addDefine("__PL_BOT__");
 
-            bool success = runtime.executeString(parts[1], "<Source Code>");
-
             std::string consoleLog;
             runtime.setLogCallback([&consoleLog](auto level, auto message) {
                 for (auto line : wolv::util::splitString(message, "\n")) {
@@ -106,6 +104,8 @@ int main() {
                     consoleLog += '\n';
                 }
             });
+
+            bool success = runtime.executeString(parts[1], "<Source Code>");
 
             if (consoleLog.size() > 1000)
                 consoleLog = "..." + consoleLog.substr(consoleLog.size() - 1000, consoleLog.size());
