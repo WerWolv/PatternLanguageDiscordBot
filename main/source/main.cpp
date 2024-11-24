@@ -55,7 +55,7 @@ int main() {
             runtime.removePragma("pattern_limit");
             runtime.removePragma("loop_limit");
 
-            runtime.addPragma("example", [](const pl::PatternLanguage &runtime, const std::string &value) {
+            runtime.addPragma("example", [](pl::PatternLanguage &runtime, const std::string &value) {
                 auto data = parseByteString(value);
                 runtime.setDataSource(0, data.size(), [data](pl::u64 address, pl::u8 *buffer, pl::u64 size) {
                     std::memcpy(buffer, data.data() + address, size);
