@@ -112,7 +112,7 @@ int main() {
 
             std::string patternOutput;
             for (const auto &pattern : runtime.getPatterns()) {
-                patternOutput += fmt::format("{} {} @ {} = {}\n", pattern->getTypeName(), pattern->getVariableName(), pattern->getOffset(), pattern->toString());
+                patternOutput += fmt::format("{} {} @ 0x{:02X} = {}\n", pattern->getTypeName(), pattern->getVariableName(), pattern->getOffset(), pattern->toString());
             }
             if (patternOutput.size() > 1000)
                 patternOutput = "..." + patternOutput.substr(consoleLog.size() - 1000, patternOutput.size());
