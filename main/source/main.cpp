@@ -77,6 +77,7 @@ int main() {
 
             if (parts[1].starts_with("pl\n")) parts[1].erase(0, 3);
             else if (parts[1].starts_with("rust\n")) parts[1].erase(0, 5);
+            else if (parts[1].starts_with("rs\n")) parts[1].erase(0, 3);
             else if (parts[1].starts_with("cpp\n")) parts[1].erase(0, 4);
             else {
                 event.edit_original_response(dpp::message("Source code must be wrapped in a `pl`, `rust` or `cpp` code block."));
