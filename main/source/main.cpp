@@ -30,6 +30,7 @@ int main() {
     bot.on_log(dpp::utility::cout_logger());
 
     bot.on_ready([&bot](const dpp::ready_t &event) {
+        std::printf("Connected to Discord!\n");
         if (dpp::run_once<struct register_bot_commands>()) {
             /* Register the command */
             bot.guild_command_create(
@@ -105,7 +106,7 @@ int main() {
                 }
             });
 
-            bool success = runtime.executeString(parts[1], "<Source Code>");
+            int resultCode = runtime.executeString(parts[1], "<Source Code>");
 
             if (consoleLog.size() > 1000)
                 consoleLog = "..." + consoleLog.substr(consoleLog.size() - 1000, consoleLog.size());
@@ -118,7 +119,7 @@ int main() {
                 patternOutput = "..." + patternOutput.substr(consoleLog.size() - 1000, patternOutput.size());
 
             std::string result;
-            result += success ? "**Result**: `Success`" : "`Failure`";
+            result += resultCode == 0 ? "**Result**: `Success`" : fmt::format("`Failure ({})`", resultCode);
             result += fmt::format("\n\n**Console Log**\n```\n{}\n```", consoleLog);
             if (!patternOutput.empty()) {
                 result += fmt::format("\n\n**Patterns**\n```\n{}\n```", patternOutput);
@@ -127,6 +128,8 @@ int main() {
             event.edit_original_response(dpp::message(result));
         }
     });
+
+    std::printf("Pattern Language Bot started!\n");
 
     /* Start bot */
     bot.start(dpp::st_wait);
